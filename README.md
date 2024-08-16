@@ -21,5 +21,16 @@ User Interface Screenshots
 ![E9](https://github.com/user-attachments/assets/bc941acd-29f1-4e83-8233-d32d9161f297)
 ![E10](https://github.com/user-attachments/assets/c427e3f2-5afe-44b2-9862-cfb14b7fd8ab)
 
+Admin Panel Screen Shots
+-------------------------
+![E1](https://github.com/user-attachments/assets/3ae37faa-0671-4076-9d94-b887f0e30b78)
+![E2](https://github.com/user-attachments/assets/1ad63205-4608-47a2-a8f9-f5c016686e20)
+
+
+![E3](https://github.com/user-attachments/assets/f7c2a7a4-1c16-4963-9621-0fffcf79e692)
+
+
+
+
 
 
