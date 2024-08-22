@@ -13,9 +13,12 @@ use App\Models\Testomonial;
 use App\Models\WebsiteContent;
 use Illuminate\Http\Request;
 
+use function Pest\Laravel\json;
+
 class HomepageController extends Controller
 {
     public function home(){
+
         $categories = Category::get();
         // $banners = Homebanner::where('status','Active')->first();
         $excellents = Excellent::where('status','Active')->first();
@@ -30,6 +33,14 @@ class HomepageController extends Controller
 
 
         return view('website.home')->with(compact('Homewebsites','Choosewebsites','excellents','excellentProducts','testimonials','categories'));
+    }
+
+    public function api(){
+
+        $categories = Category::get();
+
+        return response()->json($categories);
+
     }
 
 }
