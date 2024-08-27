@@ -12,6 +12,7 @@ class AuthController extends Controller
         return view('auth.register');
     }
     public function do_register(Request $request){
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -41,5 +42,14 @@ class AuthController extends Controller
             return redirect(route('home'));
         }
         return redirect(route('login'))->with('error','login failed');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        // $request->session()->invalidate();
+
+        return redirect('/login')->with('success', 'You have been logged out.');
     }
 }

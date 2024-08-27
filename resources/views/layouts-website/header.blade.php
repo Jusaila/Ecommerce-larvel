@@ -32,16 +32,41 @@
                                 <li><a class="dropdown-item" href="{{route('login')}}">Login</a></li>
                                 <li><a class="dropdown-item" href="{{route('register')}}">Register</a></li>
                                 <li><a class="dropdown-item" href="">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+
                             </ul>
                         </li>
 
                         <!-- Cart Link -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('cart')}}"><img src="{{ asset('assets/images/cart.svg') }}" alt="Cart"></a>
+                            <a class="nav-link" href="{{ route('cart') }}">
+                                <img src="{{ asset('assets/images/cart.svg') }}" alt="Cart">
+                                <span class="badge badge-pill badge-danger">{{ $cartCount }}</span>
+                            </a>
                         </li>
+
                     </ul>
 
 				</div>
 			</div>
 
 		</nav>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            function updateCartCount() {
+                $.ajax({
+                    url: "{{ route('cart.count') }}",
+                    method: "GET",
+                    success: function(response) {
+                        console.log('Cart count response:', response);
+                        $('.badge').text(response); // Directly set the count from the plain response
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+        </script>

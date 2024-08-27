@@ -38,14 +38,16 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach ($carts as $cart)
+
                 <tr>
                   <td class="product-thumbnail">
-                    <img src="{{asset('assets/uploads/images/overcoat1723646697.jpg')}}" alt="Image" class="img-fluid">
+                    <img src="{{ $cart->product->image }}" alt="Image" class="img-fluid">
                   </td>
                   <td class="product-name">
-                    <h2 class="h5 text-black">Overcoat</h2>
+                    <h2 class="h5 text-black">{{ $cart->product->name }}</h2>
                   </td>
-                  <td>2000</td>
+                  <td>{{ $cart->product->price}}</td>
                   <td>
                     <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
                       <div class="input-group-prepend">
@@ -58,33 +60,19 @@
                     </div>
 
                   </td>
-                  <td>2000</td>
-                  <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                </tr>
-
-                <tr>
-                  <td class="product-thumbnail">
-                    <img src="{{asset('assets/uploads/images/shirt1723646314.jpg')}}" alt="Image" class="img-fluid">
-                  </td>
-                  <td class="product-name">
-                    <h2 class="h5 text-black">Shirt</h2>
-                  </td>
-                  <td>1000</td>
+                  <td>{{ $cart->total_price }}</td>
                   <td>
-                    <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
-                      <div class="input-group-prepend">
-                        <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-                      </div>
-                      <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-black increase" type="button">&plus;</button>
-                      </div>
-                    </div>
+                    <form method="POST" action="{{ route("cart.delete") }}"  onsubmit="return confirm('Do you want delete?')" style="display:inline;">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $cart->id }}">
+                        <button class="btn btn-danger" type="submit">X</button>
+                    </form>
 
-                  </td>
-                  <td>1000</td>
-                  <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+
                 </tr>
+
+                @endforeach
+
               </tbody>
             </table>
           </div>

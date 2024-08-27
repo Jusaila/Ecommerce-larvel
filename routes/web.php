@@ -35,11 +35,19 @@ Route::get('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/register',[AuthController::class, 'do_register'])->name('do_register');
 
 Route::get('/login',[AuthController::class, 'login'])->name('login');
-Route::post('/login',[AuthController::class, 'do_login'])->name('do_register');
+Route::post('/login',[AuthController::class, 'do_login'])->name('do_login');
+
 
 
 Route::middleware('auth')->group(function(){
     Route::get('/', [HomepageController::class, 'home'])->name('home');
+    Route::get('/cart',[CartController::class, 'cart'])->name('cart');
+    Route::post('/cart/create/{product}',[CartController::class, 'create'])->name('cart.create');
+    Route::get('/cart/count', [CartController::class, 'cartCount'])->name('cart.count');
+    Route::post('/cart/delete',[CartController::class, 'cartDelete'])->name('cart.delete');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 });
 // Route::get('/', [HomepageController::class, 'home'])->name('home');
@@ -48,8 +56,9 @@ Route::get('/shop',[ProductController::class, 'shop'])->name('shop');
 Route::get('/product-details/{id}',[CategoryController::class, 'productDetails'])->name('product.details');
 Route::get('/about',[AboutUsController::class, 'about'])->name('about');
 Route::get('/blog',[BlogController::class, 'blog'])->name('blog');
-Route::get('/cart',[CartController::class, 'cart'])->name('cart');
 Route::get('/contact',[ContactController::class, 'contact'])->name('contact');
+
+
 
 //category
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories');

@@ -11,7 +11,7 @@
                     <h3 class="product-title">{{ $product->name }}</h3>
                     <strong class="product-price">{{ $product->price }}</strong>
 
-                    <span class="icon-cross">
+                    <span class="icon-cross" data-product-id = {{ $product->id }}>
                         <img src="{{asset('assets/images/cross.svg')}}" class="img-fluid">
                     </span>
                 </a>
@@ -21,4 +21,38 @@
           </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.querySelectorAll('.icon-cross').forEach(function(crossIcon) {
+        crossIcon.addEventListener('click', function(event) {
+            event.preventDefault();
+            const productId = this.getAttribute('data-product-id');
+            addToCart(productId);
+        });
+    });
+    function addToCart(id){
+    $.ajax({
+        url: '/cart/create/' + id,
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            quantity: 1 // Default quantity to 1
+        },
+        success: function(response) {
+            if (response.success) {
+                alert('Product added to cart successfully!');
+                updateCartCount(); // Call function to update cart count in the header
+            } else {
+                alert('Failed to add product to cart.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            alert('An error occurred while adding the product to the cart.');
+        }
+    });
+}
+
+</script>
+
 @endsection

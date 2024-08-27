@@ -25,6 +25,10 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function carts(){
+        return $this->hasMany(Cart::class);
+    }
+
     public static function CreateUser($input){
         $createUser = User::create([
             'name' => $input['name'],
