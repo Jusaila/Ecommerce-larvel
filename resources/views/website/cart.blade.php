@@ -67,7 +67,7 @@
                         <input type="hidden" name="id" value="{{ $cart->id }}">
                         <button class="btn btn-danger" type="submit">X</button>
                     </form>
-
+                  </td>
 
                 </tr>
 
