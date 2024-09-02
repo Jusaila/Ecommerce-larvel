@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthLoginRegisterController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentTypeController;
 use App\Http\Controllers\TestimonialController;
@@ -38,18 +39,22 @@ Route::get('/login',[AuthController::class, 'login'])->name('login');
 Route::post('/login',[AuthController::class, 'do_login'])->name('do_login');
 
 
-
 Route::middleware('auth')->group(function(){
     Route::get('/', [HomepageController::class, 'home'])->name('home');
-    Route::get('/cart',[CartController::class, 'cart'])->name('cart');
-    Route::post('/cart/create/{product}',[CartController::class, 'create'])->name('cart.create');
+    Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+    Route::post('/cart/create/{product}', [CartController::class, 'create'])->name('cart.create');
     Route::get('/cart/count', [CartController::class, 'cartCount'])->name('cart.count');
-    Route::post('/cart/delete',[CartController::class, 'cartDelete'])->name('cart.delete');
+    Route::get('/cart/total', [CartController::class, 'cartTotal'])->name('cart.total');
+
+    Route::post('/cart/delete', [CartController::class, 'cartDelete'])->name('cart.delete');
+    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+    //checl-out
+    Route::get('/checkout', [CheckOutController::class, 'checkOut'])->name('checkout');
+
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
 });
+
 // Route::get('/', [HomepageController::class, 'home'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('/shop',[ProductController::class, 'shop'])->name('shop');

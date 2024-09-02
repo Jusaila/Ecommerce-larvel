@@ -22,9 +22,14 @@
 
 
 <div class="untree_co-section before-footer-section">
+
     <div class="container">
+        @if (session('success'))
+        <span class="alert alert-success">
+            {{ session('success') }}
+        </span>
+       @endif
       <div class="row mb-5">
-        <form class="col-md-12" method="post">
           <div class="site-blocks-table">
             <table class="table">
               <thead>
@@ -51,18 +56,18 @@
                   <td>
                     <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
                       <div class="input-group-prepend">
-                        <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+                        <button class="btn btn-outline-black decrease" type="button" data-id="{{ $cart->id }}">&minus;</button>
                       </div>
-                      <input type="text" class="form-control text-center quantity-amount" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      <input type="text" class="form-control text-center quantity-amount" value="{{ $cart->quantity }}" data-id="{{ $cart->id }}" aria-label="Example text with button addon">
                       <div class="input-group-append">
-                        <button class="btn btn-outline-black increase" type="button">&plus;</button>
+                        <button class="btn btn-outline-black increase" type="button" data-id="{{ $cart->id }}">&plus;</button>
                       </div>
                     </div>
-
                   </td>
-                  <td>{{ $cart->total_price }}</td>
+                  <td class="product-total" data-id="{{ $cart->id }}">{{ $cart->total_price }}</td>
+
                   <td>
-                    <form method="POST" action="{{ route("cart.delete") }}"  onsubmit="return confirm('Do you want delete?')" style="display:inline;">
+                    <form method="POST" action="{{ route('cart.delete') }}" onsubmit="return confirm('Do you want to delete?')" style="display:inline;">
                         @csrf
                         <input type="hidden" name="id" value="{{ $cart->id }}">
                         <button class="btn btn-danger" type="submit">X</button>
@@ -76,31 +81,17 @@
               </tbody>
             </table>
           </div>
-        </form>
       </div>
 
       <div class="row">
         <div class="col-md-6">
           <div class="row mb-5">
-            <div class="col-md-6 mb-3 mb-md-0">
-              <button class="btn btn-black btn-sm btn-block">Update Cart</button>
-            </div>
+
             <div class="col-md-6">
               <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label class="text-black h4" for="coupon">Coupon</label>
-              <p>Enter your coupon code if you have one.</p>
-            </div>
-            <div class="col-md-8 mb-3 mb-md-0">
-              <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-            </div>
-            <div class="col-md-4">
-              <button class="btn btn-black">Apply Coupon</button>
-            </div>
-          </div>
+
         </div>
         <div class="col-md-6 pl-5">
           <div class="row justify-content-end">
@@ -110,26 +101,26 @@
                   <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
                 </div>
               </div>
-              <div class="row mb-3">
+              {{-- <div class="row mb-3">
                 <div class="col-md-6">
-                  <span class="text-black">Subtotal</span>
+                  <span class="text-black ">Subtotal</span>
                 </div>
                 <div class="col-md-6 text-right">
-                  <strong class="text-black">3000</strong>
+                  <strong class="text-black"></strong>
                 </div>
-              </div>
+              </div> --}}
               <div class="row mb-5">
                 <div class="col-md-6">
                   <span class="text-black">Total</span>
                 </div>
                 <div class="col-md-6 text-right">
-                  <strong class="text-black">3000</strong>
+                  <strong class="text-black cart-total"></strong>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-md-12">
-                  <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                  <a class="btn btn-black btn-lg py-3 btn-block" href="{{ route('checkout')}}">Proceed To Checkout</a>
                 </div>
               </div>
             </div>
@@ -140,3 +131,85 @@
   </div>
 
 @endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        updateCartTotal();
+
+        // Handle quantity increase button
+        $('.increase').click(function () {
+            let id = $(this).data('id');
+            let inputField = $(`input[data-id="${id}"]`);
+            let newQuantity = parseInt(inputField.val());
+
+            updateQuantity(id, newQuantity);
+        });
+
+        // Handle quantity decrease button
+        $('.decrease').click(function () {
+            let id = $(this).data('id');
+            let inputField = $(`input[data-id="${id}"]`);
+            let newQuantity = parseInt(inputField.val());
+
+            if (newQuantity > 0) {  // Prevent quantity from being zero or negative
+                updateQuantity(id, newQuantity);
+            }
+        });
+
+        // AJAX request to update quantity
+        function updateQuantity(id, quantity) {
+            $.ajax({
+                url: "{{ route('cart.updateQuantity') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    if (response.success) {
+                        let inputField = $(`input[data-id="${id}"]`);
+                        inputField.val(quantity);
+
+                        $(`td.product-total[data-id="${id}"]`).text(response.total_price);
+
+
+                        updateCartTotal();
+
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        }
+        function updateCartTotal() {
+        $.ajax({
+            url: "{{ route('cart.total') }}",
+            method: "GET",
+            success: function(response){
+                console.log('Cart Total is:', response.total);
+                $('.cart-total').text(response.total);  // Update the total value
+            },
+            error: function(xhr, status, error){
+                console.error('Error:', error);
+            }
+        });
+}
+
+
+        // Function to update cart subtotal and total dynamically
+    //     function updateCartTotals() {
+    //         let subtotal = 50;
+
+    //         $('.product-total').each(function () {
+    //             subtotal += parseFloat($(this).text());
+    //         });
+
+    //         $('.cart-subtotal').text(subtotal.toFixed(2));
+    //         $('.cart-total').text(subtotal.toFixed(2)); // Assuming subtotal is the same as total here
+    //     }
+    });
+
+
+</script>

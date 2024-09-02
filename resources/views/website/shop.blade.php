@@ -23,36 +23,41 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.querySelectorAll('.icon-cross').forEach(function(crossIcon) {
-        crossIcon.addEventListener('click', function(event) {
-            event.preventDefault();
-            const productId = this.getAttribute('data-product-id');
-            addToCart(productId);
+    $(document).ready(function () {
+        // Attach click event listener to the cross icon
+        document.querySelectorAll('.icon-cross').forEach(function(crossIcon) {
+            crossIcon.addEventListener('click', function(event) {
+                event.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                addToCart(productId);
+            });
         });
-    });
-    function addToCart(id){
-    $.ajax({
-        url: '/cart/create/' + id,
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            quantity: 1 // Default quantity to 1
-        },
-        success: function(response) {
-            if (response.success) {
-                alert('Product added to cart successfully!');
-                updateCartCount(); // Call function to update cart count in the header
-            } else {
-                alert('Failed to add product to cart.');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-            alert('An error occurred while adding the product to the cart.');
+
+        // Function to add product to cart
+        function addToCart(id) {
+            $.ajax({
+                url: '/cart/create/' + id,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    quantity: 1 // Default quantity to 1
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Product added to cart successfully!');
+                        updateCartCount(); // Call function to update cart count in the header
+                    } else {
+                        alert('Failed to add product to cart.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the product to the cart.');
+                }
+            });
         }
     });
-}
-
 </script>
+
 
 @endsection
