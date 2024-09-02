@@ -12,6 +12,9 @@ class Product extends Model
     protected $fillable = [
         'name', 'category_id', 'description', 'price', 'image','size','status'
     ];
+    public function carts(){
+        return $this->hasMany(Cart::class);
+    }
 
     public static function CreateProduct($input){
         $date = Carbon::now();
