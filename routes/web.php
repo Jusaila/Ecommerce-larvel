@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExcellentController;
@@ -48,8 +49,12 @@ Route::middleware('auth')->group(function(){
 
     Route::post('/cart/delete', [CartController::class, 'cartDelete'])->name('cart.delete');
     Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
-    //checl-out
+    //check-out
     Route::get('/checkout', [CheckOutController::class, 'checkOut'])->name('checkout');
+    //address
+    Route::get('/address',[AddressController::class, 'index'])->name('address');
+    Route::get('/address/create',[AddressController::class, 'create'])->name('address.create');
+    Route::post('/address/store',[AddressController::class, 'store'])->name('address.store');
 
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

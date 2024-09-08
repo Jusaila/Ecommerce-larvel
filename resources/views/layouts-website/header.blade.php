@@ -32,6 +32,7 @@
                                 <li><a class="dropdown-item" href="{{route('login')}}">Login</a></li>
                                 <li><a class="dropdown-item" href="{{route('register')}}">Register</a></li>
                                 <li><a class="dropdown-item" href="">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{route('address')}}">Address</a></li>
                                 <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
 
                             </ul>
