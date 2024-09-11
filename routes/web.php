@@ -17,6 +17,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentTypeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\WebsiteContentController;
 use App\Http\Controllers\WhyChooseUsController;
@@ -34,6 +35,10 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//razorpay
+
+Route::get('/razorpay',[PaymentController::class, 'index'])->name('razorpay');
+Route::post('/razorpay-store',[PaymentController::class, 'store'])->name('razorpay.store');
 
 Route::get('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/register',[AuthController::class, 'do_register'])->name('do_register');
@@ -41,9 +46,9 @@ Route::post('/register',[AuthController::class, 'do_register'])->name('do_regist
 Route::get('/login',[AuthController::class, 'login'])->name('login');
 Route::post('/login',[AuthController::class, 'do_login'])->name('do_login');
 
+Route::get('/', [HomepageController::class, 'home'])->name('home');
 
 Route::middleware('auth')->group(function(){
-    Route::get('/', [HomepageController::class, 'home'])->name('home');
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
     Route::post('/cart/create/{product}', [CartController::class, 'create'])->name('cart.create');
     Route::get('/cart/count', [CartController::class, 'cartCount'])->name('cart.count');
@@ -57,6 +62,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/address',[AddressController::class, 'index'])->name('address');
     Route::get('/address/create',[AddressController::class, 'create'])->name('address.create');
     Route::post('/address/store',[AddressController::class, 'store'])->name('address.store');
+    Route::post('/delete-address',[AddressController::class, 'delete'])->name('address.delete');
+
+    Route::post('/address/{id}/toggle-status',[ AddressController::class,'toggleStatus'])->name('address.toggle-status');
 
     //payment
 
