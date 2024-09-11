@@ -65,7 +65,7 @@
                         <td>{{ $addres->first_name }}</td>
                         <td>{{ $addres->last_name }}</td>
                         <td>{{ $addres->country }}</td>
-                        <td>₹ {{ $addres->house_name }}</td>
+                        <td>{{ $addres->house_name }}</td>
                         <td>{{ $addres->address }}</td>
                         <td>{{ $addres->state }}</td>
                         <td>{{ $addres->pincode }}</td>
@@ -75,24 +75,36 @@
 
 
                         <td>
-                            @if ($addres->status == "Active")
+                            @if ($addres->status == 1)
                             <span class="badge bg-success">Active</span>
                             @else
                             <span class="badge bg-danger">Inactive</span>
                             @endif
                         </td>
-                        {{-- <td>
-                            <button type="button" class="btn btn-info view-details" data-toggle="modal" data-target="#exampleModal" data-index="{{ $index }}">
-                                View
-                               </button>
-
-                            <form method="POST" action="{{ route("product.delete") }}"  onsubmit="return confirm('Do you want delete?')" style="display:inline;">
+                        <td>
+                            <form action="{{ route('address.toggle-status', $addres->id) }}" method="POST" class="d-inline">
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="status" value="{{ $addres->status ? 0 : 1 }}">
+                                <div class="form-check form-switch form-switch-success mb-3">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="SwitchCheck{{ $addres->id }}"
+                                        {{ $addres->status ? 'checked' : '' }}
+                                        onclick="this.form.submit()"
+                                    />
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+
+                            <form method="POST" action="{{ route("address.delete") }}"  onsubmit="return confirm('Do you want delete?')" style="display:inline;">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $addres->id }}">
                                 <button class="btn btn-danger" type="submit">Delete</button>
                             </form>
-                            <a href="{{ url('edit-products/'.$product->id) }}"><button class="btn btn-primary">Edit</button></a>
-                        </td> --}}
+                        </td>
                       </tr>
                     @endforeach
 
