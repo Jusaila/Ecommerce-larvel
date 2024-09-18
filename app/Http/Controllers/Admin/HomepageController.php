@@ -35,12 +35,6 @@ class HomepageController extends Controller
         return view('website.home')->with(compact('Homewebsites','Choosewebsites','excellents','excellentProducts','testimonials','categories'));
     }
 
-    public function api(){
 
-        $categories = Category::get();
-
-        return response()->json($categories);
-
-    }
 
 }
