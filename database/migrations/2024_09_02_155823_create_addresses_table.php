@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('pincode');
             $table->string('email');
             $table->string('phone');
+            $table->boolean('status')->default(true);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

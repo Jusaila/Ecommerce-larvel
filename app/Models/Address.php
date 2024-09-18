@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Address extends Model
 {
-    protected $fillable = ['user_id','country','first_name','last_name','house_name','address','state','pincode','email','phone'
+    protected $fillable = ['user_id','country','first_name','last_name','house_name','address','state','pincode','email','phone','status'
 
 ];
     use HasFactory;

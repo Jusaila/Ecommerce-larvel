@@ -87,7 +87,7 @@
                     </table>
 
                     <div class="form-group">
-                        <a class="btn btn-black btn-lg py-3 btn-block" href="{{ route('razorpay')}}">Place Order</a>
+                        <a class="btn btn-black btn-lg py-3 btn-block" href="{{ route('payment', ['amount' => $totalPrice * 100]) }}">Place Order</a>
                     </div>
                 </div>
             </div>
