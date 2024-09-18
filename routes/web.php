@@ -21,6 +21,8 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\WebsiteContentController;
 use App\Http\Controllers\WhyChooseUsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +57,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/address',[AddressController::class, 'index'])->name('address');
     Route::get('/address/create',[AddressController::class, 'create'])->name('address.create');
     Route::post('/address/store',[AddressController::class, 'store'])->name('address.store');
+
+    //payment
+
+    Route::get('/payment',[PaymentController::class, 'index'])->name('payment');
 
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
