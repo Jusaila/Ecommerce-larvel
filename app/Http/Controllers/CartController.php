@@ -54,6 +54,7 @@ class CartController extends Controller
         return $cartCount; // Return the count directly as a plain number
     }
     //cart-total
+
     public function cartTotal()
     {
         $id = Auth::id();

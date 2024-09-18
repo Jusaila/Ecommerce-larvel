@@ -19,6 +19,18 @@ class AddressController extends Controller
         return view('address.create');
     }
 
+    // toggle status
+
+    public function toggleStatus(Request $request, $id)
+    {
+        $category = Address::findOrFail($id);
+        $category->status = !$category->status;
+        $category->save();
+
+        return redirect()->route('address');
+
+    }
+
     public function store(Request $request){
 
 
@@ -41,6 +53,13 @@ class AddressController extends Controller
             return redirect(route('address'))->with('error','Something Went Wrong');
 
         }
+    }
+
+    //delete
+    public function delete(Request $request){
+        $selectRaw = Address::find($request->id);
+        $selectRaw->delete();
+        return redirect('address')->with('success','category deleted successfully');
     }
 
 }
