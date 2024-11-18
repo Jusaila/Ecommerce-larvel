@@ -22,7 +22,6 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\WebsiteContentController;
 use App\Http\Controllers\WhyChooseUsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymentController;
 
 
 /*
